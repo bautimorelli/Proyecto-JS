@@ -7,9 +7,16 @@ class Operation {
 		this.result = result;
 	}
 	toHTML(parent) {
-		let element = document.createElement("p")
-		element.innerHTML = this.num1 + " " + this.operator + " " + this.num2 + " = " + this.result
-		parent.appendChild(element)
+		let element = document.createElement("p");
+		element.innerHTML =
+			this.num1 +
+			" " +
+			this.operator +
+			" " +
+			this.num2 +
+			" = " +
+			this.result;
+		parent.appendChild(element);
 	}
 }
 
@@ -40,7 +47,7 @@ function newOperation() {
 	if (window.confirm("Desea realizar otra operacion?")) {
 		newOperation();
 	} else {
-		let parent = document.getElementById('history')
+		let parent = document.getElementById("history");
 		results.forEach((operation) => {
 			operation.toHTML(parent);
 		});
