@@ -11,27 +11,30 @@
 	<body>
 		<div class="flexVertically">
 			<div class="mainGrid">
-				<div class="display" contenteditable></div>
-				<button class="button">/</button>
-				<button class="button">^</button>
-				<button class="button">C</button>
-				<button class="button">CE</button>
-				<button class="button number">7</button>
-				<button class="button number">8</button>
-				<button class="button number">9</button>
-				<button class="button">x</button>
-				<button class="button number">4</button>
-				<button class="button number">5</button>
-				<button class="button number">6</button>
-				<button class="button">-</button>
-				<button class="button number">1</button>
-				<button class="button number">2</button>
-				<button class="button number">3</button>
-				<button class="button">+</button>
-				<button class="button number">+/-</button>
-				<button class="button number">0</button>
-				<button class="button number">,</button>
-				<button class="button equal">=</button>
+				<div class="display">
+					<p id="subDisplay"></p>
+					<p id="mainDisplay"></p>
+				</div>
+				<button class="button" id="divide">/</button>
+				<button class="button" id="power">^</button>
+				<button class="button" id="clear">CE</button>
+				<button class="button" id="clearAll">C</button>
+				<button class="button number" id="num7">7</button>
+				<button class="button number" id="num8">8</button>
+				<button class="button number" id="num9">9</button>
+				<button class="button" id="multiply">x</button>
+				<button class="button number" id="num4">4</button>
+				<button class="button number" id="num5">5</button>
+				<button class="button number" id="num6">6</button>
+				<button class="button" id="substract">-</button>
+				<button class="button number" id="num1">1</button>
+				<button class="button number" id="num2">2</button>
+				<button class="button number" id="num3">3</button>
+				<button class="button" id="plus">+</button>
+				<button class="button number" id="changeSign">+/-</button>
+				<button class="button number" id="num0">0</button>
+				<button class="button number" id="comma">.</button>
+				<button class="button equal" id="equal">=</button>
 			</div>
 			<div class="history" id="history">
 				<h2 class="title">Historial</h2>

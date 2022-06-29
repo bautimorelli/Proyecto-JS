@@ -35,18 +35,31 @@ body {
     grid-column-end: span 4;
     width: 100%;
     height: 100%;
-    font-size: 4em;
     text-align: right;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     border: none;
     background-color: white;
     outline: 0px solid transparent;
-    caret-color: transparent
+    caret-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .display:focus{
     outline: #00C9A7 1px solid;
+}
+
+#subDisplay {
+    font-size: 1.1em;
+    margin: 0 10px;
+    height: 21px;
+}
+
+#mainDisplay {
+    font-size: 1.5em;
+    margin: 5px 10px 0;
 }
 
 .button {
@@ -55,6 +68,7 @@ body {
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     font-size: 1.2em;
+    cursor: pointer;
 }
 
 .number {
@@ -87,3 +101,4 @@ body {
 p{
     margin: 5px 0 5px 15px;
 }
+
