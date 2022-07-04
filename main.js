@@ -26,8 +26,9 @@ const results = [];
 let operation = new Operation()
 const mainDisplay = document.getElementById("mainDisplay")
 const subDisplay = document.getElementById("subDisplay")
-const history = document.getElementById("history")
-
+const historyContainer = document.getElementById("historyContainer")
+const historyContent = document.getElementById("historyContent")
+const historyIcon = document.getElementById("iconHistory")
 
 //Events....
 for (let index = 0; index < 10; index++) {
@@ -50,7 +51,7 @@ document.getElementById("comma").onclick = () => {
 	}
 }
 
-document.getElementById("clear").onclick = () => {mainDisplay.innerHTML = ""}
+document.getElementById("clear").onclick = () => {mainDisplay.innerHTML = "0"}
 
 document.getElementById("plus").onclick = () => {operatorClick("+")}
 document.getElementById("substract").onclick = () => {operatorClick("-")}
@@ -62,12 +63,17 @@ document.getElementById("clearAll").onclick = () => {clearAll()}
 
 document.getElementById("equal").onclick = () => {equal()}
 
+historyIcon.onclick = () => {collapsableHistory()}
+
 
 //Functions....
 
 function addNumerToDisplay (number) {
 	if(subDisplay.innerHTML.includes("=")){
 		subDisplay.innerHTML = ""
+		mainDisplay.innerHTML = ""
+	}
+	if (mainDisplay.innerHTML == "0") {
 		mainDisplay.innerHTML = ""
 	}
 	let content = mainDisplay.innerHTML
@@ -79,25 +85,39 @@ function operatorClick (operator) {
 	subDisplay.innerHTML = mainDisplay.innerHTML + " " + operator + " "
 	operation.num1 = Number(mainDisplay.innerHTML)
 	operation.operator = operator
-	mainDisplay.innerHTML = ""
+	mainDisplay.innerHTML = "0"
 }
 
 function clearAll () {
 	subDisplay.innerHTML = ""
 	operation.num1 = " "
 	operation.operator = " "
-	mainDisplay.innerHTML = ""
+	mainDisplay.innerHTML = "0"
 }
 
 function equal() {
+	if(subDisplay.innerHTML.includes("=")){
+		subDisplay.innerHTML = ""
+	}
 	let equation = subDisplay.innerHTML + mainDisplay.innerHTML
 	operation.num2 = Number(mainDisplay.innerHTML)
-	subDisplay.innerHTML = equation + "="
+	subDisplay.innerHTML = equation + " ="
 	const result = eval(equation)
 	operation.result = result
 	mainDisplay.innerHTML = result
 
 	results.push(operation)
-	operation.toHTML(history)
+	operation.toHTML(historyContent)
 	operation = new Operation()
+}
+
+function collapsableHistory () {
+	if(historyContainer.style.maxWidth){
+		historyContainer.style.maxWidth = null;
+		historyContainer.style.maxHeight = null;
+	}
+	else {
+		historyContainer.style.maxWidth = "90vw";
+		historyContainer.style.maxHeight = "90vh";
+	}
 }

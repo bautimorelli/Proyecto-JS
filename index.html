@@ -6,41 +6,46 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Calculadora</title>
 		<link rel="stylesheet" href="style.css"/>
-		
+		<script defer src="main.js"></script>
 	</head>
 	<body>
 		<div class="flexVertically">
-			<div class="mainGrid">
-				<div class="display">
-					<p id="subDisplay"></p>
-					<p id="mainDisplay"></p>
+			<div class="container">
+				<div class="calculator">
+					<div class="display">
+						<p id="subDisplay"></p>
+						<p id="mainDisplay">0</p>
+					</div>
+					<div class="mainGrid">
+						<button class="button" id="divide">/</button>
+						<button class="button" id="power">^</button>
+						<button class="button" id="clear">CE</button>
+						<button class="button" id="clearAll">C</button>
+						<button class="button number" id="num7">7</button>
+						<button class="button number" id="num8">8</button>
+						<button class="button number" id="num9">9</button>
+						<button class="button" id="multiply">x</button>
+						<button class="button number" id="num4">4</button>
+						<button class="button number" id="num5">5</button>
+						<button class="button number" id="num6">6</button>
+						<button class="button" id="substract">-</button>
+						<button class="button number" id="num1">1</button>
+						<button class="button number" id="num2">2</button>
+						<button class="button number" id="num3">3</button>
+						<button class="button" id="plus">+</button>
+						<button class="button" id="changeSign">+/-</button>
+						<button class="button number" id="num0">0</button>
+						<button class="button" id="comma">.</button>
+						<button class="button" id="equal">=</button>
+					</div>
 				</div>
-				<button class="button" id="divide">/</button>
-				<button class="button" id="power">^</button>
-				<button class="button" id="clear">CE</button>
-				<button class="button" id="clearAll">C</button>
-				<button class="button number" id="num7">7</button>
-				<button class="button number" id="num8">8</button>
-				<button class="button number" id="num9">9</button>
-				<button class="button" id="multiply">x</button>
-				<button class="button number" id="num4">4</button>
-				<button class="button number" id="num5">5</button>
-				<button class="button number" id="num6">6</button>
-				<button class="button" id="substract">-</button>
-				<button class="button number" id="num1">1</button>
-				<button class="button number" id="num2">2</button>
-				<button class="button number" id="num3">3</button>
-				<button class="button" id="plus">+</button>
-				<button class="button number" id="changeSign">+/-</button>
-				<button class="button number" id="num0">0</button>
-				<button class="button number" id="comma">.</button>
-				<button class="button equal" id="equal">=</button>
-			</div>
-			<div class="history" id="history">
-				<h2 class="title">Historial</h2>
+				<div class="history" id="historyContainer">
+					<img src="history.svg" alt="History" id="iconHistory">
+					<h2 class="historyTitle">Historial</h2>
+					<div class="historyContent" id="historyContent">
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
-	<!-- Mover script con entrega de eventos -->
-	<script src="main.js"></script>
 </html>
