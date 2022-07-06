@@ -86,6 +86,10 @@ body {
     box-shadow: 8px 8px 15px #0087F324, -10px -10px 15px #ffffff;
 }
 
+.button:active {
+    transform: scale(0.95);
+}
+
 .number {
     font-size: 1.5em;
     color: black;

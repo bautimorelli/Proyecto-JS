@@ -20,115 +20,131 @@ class Operation {
 	}
 }
 
-
 //Main....
-const historyStorage = localStorage.getItem("history")
+const historyStorage = localStorage.getItem("history");
 const history = JSON.parse(historyStorage) ?? [];
-let operation = new Operation()
-const mainDisplay = document.getElementById("mainDisplay")
-const subDisplay = document.getElementById("subDisplay")
-const historyContainer = document.getElementById("historyContainer")
-const historyContent = document.getElementById("historyContent")
-const historyIcon = document.getElementById("iconHistory")
+let operation = new Operation();
+const mainDisplay = document.getElementById("mainDisplay");
+const subDisplay = document.getElementById("subDisplay");
+const historyContainer = document.getElementById("historyContainer");
+const historyContent = document.getElementById("historyContent");
+const historyIcon = document.getElementById("iconHistory");
 
-console.log(history)
-history.forEach(operation => {
-	operationToHTML(operation, historyContent)
+history.forEach((operation) => {
+	operationToHTML(operation, historyContent);
 });
 
 //Events....
 for (let index = 0; index < 10; index++) {
-	document.getElementById("num" + index).onclick = () => {addNumerToDisplay(String(index))}
+	document.getElementById("num" + index).onclick = () => {
+		addNumerToDisplay(String(index));
+	};
 }
 
 document.getElementById("changeSign").onclick = () => {
-	let content = mainDisplay.innerHTML
+	let content = mainDisplay.innerHTML;
 	if (content[0] != "-") {
-		mainDisplay.innerHTML = "-" + content
+		mainDisplay.innerHTML = "-" + content;
 	} else {
-		mainDisplay.innerHTML = content.substring(1)
+		mainDisplay.innerHTML = content.substring(1);
 	}
-}
+};
 
 document.getElementById("comma").onclick = () => {
-	let content = mainDisplay.innerHTML
+	let content = mainDisplay.innerHTML;
 	if (!content.includes(".")) {
-		mainDisplay.innerHTML = content + "."
+		mainDisplay.innerHTML = content + ".";
 	}
-}
+};
 
-document.getElementById("clear").onclick = () => {mainDisplay.innerHTML = "0"}
+document.getElementById("clear").onclick = () => {
+	mainDisplay.innerHTML = "0";
+};
 
-document.getElementById("plus").onclick = () => {operatorClick("+")}
-document.getElementById("substract").onclick = () => {operatorClick("-")}
-document.getElementById("multiply").onclick = () => {operatorClick("*")}
-document.getElementById("divide").onclick = () => {operatorClick("/")}
-document.getElementById("power").onclick = () => {operatorClick("^")}
+document.getElementById("plus").onclick = () => {
+	operatorClick("+");
+};
+document.getElementById("substract").onclick = () => {
+	operatorClick("-");
+};
+document.getElementById("multiply").onclick = () => {
+	operatorClick("*");
+};
+document.getElementById("divide").onclick = () => {
+	operatorClick("/");
+};
+document.getElementById("power").onclick = () => {
+	operatorClick("^");
+};
 
-document.getElementById("clearAll").onclick = () => {clearAll()}
+document.getElementById("clearAll").onclick = () => {
+	clearAll();
+};
 
-document.getElementById("equal").onclick = () => {equal()}
+document.getElementById("equal").onclick = () => {
+	equal();
+};
 
-historyIcon.onclick = () => {collapsableHistory()}
-
+historyIcon.onclick = () => {
+	collapsableHistory();
+};
 
 //Functions....
 
-function addNumerToDisplay (number) {
-	if(subDisplay.innerHTML.includes("=")){
-		subDisplay.innerHTML = ""
-		mainDisplay.innerHTML = ""
+function addNumerToDisplay(number) {
+	if (subDisplay.innerHTML.includes("=")) {
+		subDisplay.innerHTML = "";
+		mainDisplay.innerHTML = "";
 	}
 	if (mainDisplay.innerHTML == "0") {
-		mainDisplay.innerHTML = ""
+		mainDisplay.innerHTML = "";
 	}
-	let content = mainDisplay.innerHTML
-	content = content + number
-	mainDisplay.innerHTML = content
+	let content = mainDisplay.innerHTML;
+	content = content + number;
+	mainDisplay.innerHTML = content;
 }
 
-function operatorClick (operator) {
-	subDisplay.innerHTML = mainDisplay.innerHTML + " " + operator + " "
-	operation.num1 = Number(mainDisplay.innerHTML)
-	operation.operator = operator
-	mainDisplay.innerHTML = "0"
+function operatorClick(operator) {
+	subDisplay.innerHTML = mainDisplay.innerHTML + " " + operator + " ";
+	operation.num1 = Number(mainDisplay.innerHTML);
+	operation.operator = operator;
+	mainDisplay.innerHTML = "0";
 }
 
-function clearAll () {
-	subDisplay.innerHTML = ""
-	operation.num1 = " "
-	operation.operator = " "
-	mainDisplay.innerHTML = "0"
+function clearAll() {
+	subDisplay.innerHTML = "";
+	operation.num1 = " ";
+	operation.operator = " ";
+	mainDisplay.innerHTML = "0";
 }
 
 function equal() {
-	if(subDisplay.innerHTML.includes("=")){
-		subDisplay.innerHTML = ""
+	if (subDisplay.innerHTML.includes("=")) {
+		subDisplay.innerHTML = "";
 	}
-	let equation = subDisplay.innerHTML + mainDisplay.innerHTML
-	operation.num2 = Number(mainDisplay.innerHTML)
-	subDisplay.innerHTML = equation + " ="
-	const result = eval(equation)
-	operation.result = result
-	mainDisplay.innerHTML = result
+	let equation = subDisplay.innerHTML + mainDisplay.innerHTML;
+	operation.num2 = Number(mainDisplay.innerHTML);
+	subDisplay.innerHTML = equation + " =";
+	const result = eval(equation);
+	operation.result = result;
+	mainDisplay.innerHTML = result;
 
-	history.push(operation)
-	if(history.length >= 15){
-		history.shift()
-		historyContent.removeChild(historyContent.firstChild)
+	history.push(operation);
+	if (history.length >= 15) {
+		history.shift();
+		historyContent.removeChild(historyContent.firstChild);
 	}
-	const historyJSON = JSON.stringify(history)
-	localStorage.setItem("history", historyJSON)
-	operation.toHTML(historyContent)
-	operation = new Operation()
+	const historyJSON = JSON.stringify(history);
+	localStorage.setItem("history", historyJSON);
+	operation.toHTML(historyContent);
+	operation = new Operation();
 }
 
-function collapsableHistory () {
-	if(historyContainer.style.maxWidth){
+function collapsableHistory() {
+	if (historyContainer.style.maxWidth) {
 		historyContainer.style.maxWidth = null;
 		historyContainer.style.maxHeight = null;
-	}
-	else {
+	} else {
 		historyContainer.style.maxWidth = "90vw";
 		historyContainer.style.maxHeight = "90vh";
 	}
