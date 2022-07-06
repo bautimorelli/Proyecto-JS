@@ -138,6 +138,14 @@ function equal() {
 	localStorage.setItem("history", historyJSON);
 	operation.toHTML(historyContent);
 	operation = new Operation();
+
+	Swal.fire({
+		title: 'Felicidades',
+		text: 'Has hecho una operacion!',
+		icon: 'success',
+		confirmButtonText: 'Gracias Gracias'
+
+	})
 }
 
 function collapsableHistory() {
