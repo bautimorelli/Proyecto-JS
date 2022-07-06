@@ -22,13 +22,19 @@ class Operation {
 
 
 //Main....
-const results = [];
+const historyStorage = localStorage.getItem("history")
+const history = JSON.parse(historyStorage) ?? [];
 let operation = new Operation()
 const mainDisplay = document.getElementById("mainDisplay")
 const subDisplay = document.getElementById("subDisplay")
 const historyContainer = document.getElementById("historyContainer")
 const historyContent = document.getElementById("historyContent")
 const historyIcon = document.getElementById("iconHistory")
+
+console.log(history)
+history.forEach(operation => {
+	operationToHTML(operation, historyContent)
+});
 
 //Events....
 for (let index = 0; index < 10; index++) {
@@ -106,7 +112,13 @@ function equal() {
 	operation.result = result
 	mainDisplay.innerHTML = result
 
-	results.push(operation)
+	history.push(operation)
+	if(history.length >= 15){
+		history.shift()
+		historyContent.removeChild(historyContent.firstChild)
+	}
+	const historyJSON = JSON.stringify(history)
+	localStorage.setItem("history", historyJSON)
 	operation.toHTML(historyContent)
 	operation = new Operation()
 }
@@ -120,4 +132,17 @@ function collapsableHistory () {
 		historyContainer.style.maxWidth = "90vw";
 		historyContainer.style.maxHeight = "90vh";
 	}
+}
+
+function operationToHTML(operation, parent) {
+	let element = document.createElement("p");
+	element.innerHTML =
+		operation.num1 +
+		" " +
+		operation.operator +
+		" " +
+		operation.num2 +
+		" = " +
+		operation.result;
+	parent.appendChild(element);
 }
