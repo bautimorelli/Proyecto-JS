@@ -22,7 +22,7 @@ class Operation {
 
 //Main....
 const historyStorage = localStorage.getItem("history");
-const history = JSON.parse(historyStorage) ?? [];
+const history = JSON.parse(historyStorage) || [];
 let operation = new Operation();
 const mainDisplay = document.getElementById("mainDisplay");
 const subDisplay = document.getElementById("subDisplay");
@@ -43,15 +43,11 @@ for (let index = 0; index < 10; index++) {
 
 document.getElementById("changeSign").onclick = () => {
 	let content = mainDisplay.innerHTML;
-	if (content[0] != "-") {
-		mainDisplay.innerHTML = "-" + content;
-	} else {
-		mainDisplay.innerHTML = content.substring(1);
-	}
+	mainDisplay.innerHTML = content[0] != "-" ? "-" + content : content.substring(1)
 };
 
 document.getElementById("comma").onclick = () => {
-	let content = mainDisplay.innerHTML;
+	let content = mainDisplay.innerHTML
 	if (!content.includes(".")) {
 		mainDisplay.innerHTML = content + ".";
 	}
@@ -152,13 +148,14 @@ function collapsableHistory() {
 
 function operationToHTML(operation, parent) {
 	let element = document.createElement("p");
+	const { num1, operator, num2, result} = operation
 	element.innerHTML =
-		operation.num1 +
+		num1 +
 		" " +
-		operation.operator +
+		operator +
 		" " +
-		operation.num2 +
+		num2 +
 		" = " +
-		operation.result;
+		result;
 	parent.appendChild(element);
 }
