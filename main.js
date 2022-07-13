@@ -22,13 +22,18 @@ class Operation {
 
 //Main....
 const historyStorage = localStorage.getItem("history");
-const history = JSON.parse(historyStorage) || [];
+const history = JSON.parse(historyStorage) ?? [];
 let operation = new Operation();
 const mainDisplay = document.getElementById("mainDisplay");
 const subDisplay = document.getElementById("subDisplay");
 const historyContainer = document.getElementById("historyContainer");
 const historyContent = document.getElementById("historyContent");
 const historyIcon = document.getElementById("iconHistory");
+
+const parser = math.parser()
+parser.set('ln', function (number) {
+	return math.evaluate("log("+ number +", e)")
+})
 
 history.forEach((operation) => {
 	operationToHTML(operation, historyContent);
@@ -81,9 +86,24 @@ document.getElementById("equal").onclick = () => {
 	equal();
 };
 
+document.getElementById("pi").onclick = () => {
+	addNumerToDisplay("pi")
+}
+
+document.getElementById("sqrt").onclick = () => {
+	surroundOperatorClick("sqrt")
+}
+document.getElementById("log").onclick = () => {
+	surroundOperatorClick("log10")
+}
+document.getElementById("ln").onclick = () => {
+	surroundOperatorClick("ln")
+}
+
 historyIcon.onclick = () => {
 	collapsableHistory();
 };
+
 
 //Functions....
 
@@ -102,9 +122,13 @@ function addNumerToDisplay(number) {
 
 function operatorClick(operator) {
 	subDisplay.innerHTML = mainDisplay.innerHTML + " " + operator + " ";
-	operation.num1 = Number(mainDisplay.innerHTML);
+	operation.num1 = mainDisplay.innerHTML;
 	operation.operator = operator;
 	mainDisplay.innerHTML = "0";
+}
+
+function surroundOperatorClick (operator) {
+	mainDisplay.innerHTML = operator + "(" + mainDisplay.innerHTML + ")"
 }
 
 function clearAll() {
@@ -119,9 +143,9 @@ function equal() {
 		subDisplay.innerHTML = "";
 	}
 	let equation = subDisplay.innerHTML + mainDisplay.innerHTML;
-	operation.num2 = Number(mainDisplay.innerHTML);
+	operation.num2 = mainDisplay.innerHTML;
 	subDisplay.innerHTML = equation + " =";
-	const result = eval(equation);
+	const result = parser.evaluate(equation);
 	operation.result = result;
 	mainDisplay.innerHTML = result;
 
@@ -158,4 +182,5 @@ function operationToHTML(operation, parent) {
 		" = " +
 		result;
 	parent.appendChild(element);
+	
 }
