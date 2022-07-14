@@ -118,6 +118,7 @@ document.addEventListener("keydown", (event) => {
 	if (key == "Backspace") {
 		mainDisplay.innerHTML= mainDisplay.innerHTML.slice(0, -1)
 	}
+	event.preventDefault()
 });
 
 

@@ -30,6 +30,7 @@ body {
     border: none;
     border-radius: 20px;
     box-shadow: 8px 8px 15px #0087F324, -10px -10px 15px #ffffff;
+    max-width: 365px;
 }
 
 .mainGrid {
@@ -61,12 +62,16 @@ body {
     margin: 15px 15px 0;
     color: rgba(0, 0, 0, 0.5);
     height: 20px;
+    overflow: hidden;
+    direction: rtl;
 }
 
 #mainDisplay {
     font-size: 2em;
     margin: 5px 15px 15px;
     color: #0087F3;
+    overflow: hidden;
+    direction: rtl;
 }
 
 .button {
