@@ -52,10 +52,7 @@ document.getElementById("changeSign").onclick = () => {
 };
 
 document.getElementById("comma").onclick = () => {
-	let content = mainDisplay.innerHTML
-	if (!content.includes(".")) {
-		mainDisplay.innerHTML = content + ".";
-	}
+	addDecimal()
 };
 
 document.getElementById("clear").onclick = () => {
@@ -104,6 +101,25 @@ historyIcon.onclick = () => {
 	collapsableHistory();
 };
 
+//Keyboard Events....
+document.addEventListener("keydown", (event) => {
+	var key = event.key
+	for (let index = 0; index < 10; index++) {
+		key == index && addNumerToDisplay(key)
+	}
+	key == "Enter" && equal()
+	key == "+" && operatorClick(key)
+	key == "*" && operatorClick(key)
+	key == "-" && operatorClick(key)
+	key == "/" && operatorClick(key)
+	key == "^" && operatorClick(key)
+	key == "." && addDecimal()
+	key == "," && addDecimal()
+	if (key == "Backspace") {
+		mainDisplay.innerHTML= mainDisplay.innerHTML.slice(0, -1)
+	}
+});
+
 
 //Functions....
 
@@ -136,6 +152,13 @@ function clearAll() {
 	operation.num1 = " ";
 	operation.operator = " ";
 	mainDisplay.innerHTML = "0";
+}
+
+function addDecimal() {
+	let content = mainDisplay.innerHTML
+	if (!content.includes(".")) {
+		mainDisplay.innerHTML = content + ".";
+	}
 }
 
 function equal() {
