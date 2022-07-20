@@ -29,14 +29,29 @@ const subDisplay = document.getElementById("subDisplay");
 const historyContainer = document.getElementById("historyContainer");
 const historyContent = document.getElementById("historyContent");
 const historyIcon = document.getElementById("iconHistory");
+let helpData = null;
+const helpMode = document.getElementById("helpMode");
+const helpDescription = document.getElementById("helpDescription");
 
-const parser = math.parser()
-parser.set('ln', function (number) {
-	return math.evaluate("log("+ number +", e)")
-})
+const parser = math.parser();
+parser.set("ln", function (number) {
+	return math.evaluate("log(" + number + ", e)");
+});
 
 history.forEach((operation) => {
 	operationToHTML(operation, historyContent);
+});
+
+//Async await
+const fetchHelpData = async () => {
+	const resp = await fetch("./help.JSON");
+	const data = await resp.json();
+
+	return data;
+};
+
+fetchHelpData().then((data) => {
+	helpData = data.help;
 });
 
 //Events....
@@ -46,81 +61,146 @@ for (let index = 0; index < 10; index++) {
 	};
 }
 
-document.getElementById("changeSign").onclick = () => {
+const btnChangeSign = document.getElementById("changeSign");
+btnChangeSign.onclick = () => {
 	let content = mainDisplay.innerHTML;
-	mainDisplay.innerHTML = content[0] != "-" ? "-" + content : content.substring(1)
+	mainDisplay.innerHTML =
+		content[0] != "-" ? "-" + content : content.substring(1);
+};
+btnChangeSign.onmouseover = () => {
+	functionMouseover("changeSign");
 };
 
-document.getElementById("comma").onclick = () => {
-	addDecimal()
+const btnComma = document.getElementById("comma");
+btnComma.onclick = () => {
+	addDecimal();
+};
+btnComma.onmouseover = () => {
+	functionMouseover("comma");
 };
 
-document.getElementById("clear").onclick = () => {
+const btnClear = document.getElementById("clear");
+btnClear.onclick = () => {
 	mainDisplay.innerHTML = "0";
 };
+btnClear.onmouseover = () => {
+	functionMouseover("CE");
+};
 
-document.getElementById("plus").onclick = () => {
+const btnPlus = document.getElementById("plus");
+btnPlus.onclick = () => {
 	operatorClick("+");
 };
-document.getElementById("substract").onclick = () => {
+btnPlus.onmouseover = () => {
+	functionMouseover("plus");
+};
+
+const btnSubstract = document.getElementById("substract");
+btnSubstract.onclick = () => {
 	operatorClick("-");
 };
-document.getElementById("multiply").onclick = () => {
+btnSubstract.onmouseover = () => {
+	functionMouseover("substract");
+};
+
+const btnMultiply = document.getElementById("multiply");
+btnMultiply.onclick = () => {
 	operatorClick("*");
 };
-document.getElementById("divide").onclick = () => {
+btnMultiply.onmouseover = () => {
+	functionMouseover("multiply");
+};
+
+const btnDivide = document.getElementById("divide");
+btnDivide.onclick = () => {
 	operatorClick("/");
 };
-document.getElementById("power").onclick = () => {
+btnDivide.onmouseover = () => {
+	functionMouseover("divide");
+};
+
+const btnPower = document.getElementById("power");
+btnPower.onclick = () => {
 	operatorClick("^");
 };
+btnPower.onmouseover = () => {
+	functionMouseover("power");
+};
 
-document.getElementById("clearAll").onclick = () => {
+const btnClearAll = document.getElementById("clearAll");
+btnClearAll.onclick = () => {
 	clearAll();
 };
-
-document.getElementById("equal").onclick = () => {
-	equal();
+btnClearAll.onmouseover = () => {
+	functionMouseover("C");
 };
 
-document.getElementById("pi").onclick = () => {
-	addNumerToDisplay("pi")
-}
+const btnEqual = document.getElementById("equal");
+btnEqual.onclick = () => {
+	equal();
+};
+btnEqual.onmouseover = () => {
+	functionMouseover("equal");
+};
 
-document.getElementById("sqrt").onclick = () => {
-	surroundOperatorClick("sqrt")
-}
-document.getElementById("log").onclick = () => {
-	surroundOperatorClick("log10")
-}
-document.getElementById("ln").onclick = () => {
-	surroundOperatorClick("ln")
-}
+const btnPi = document.getElementById("pi");
+btnPi.onclick = () => {
+	addNumerToDisplay("pi");
+};
+btnPi.onmouseover = () => {
+	functionMouseover("pi");
+};
+
+const btnSqrt = document.getElementById("sqrt");
+btnSqrt.onclick = () => {
+	surroundOperatorClick("sqrt");
+};
+btnSqrt.onmouseover = () => {
+	functionMouseover("sqrt");
+};
+
+const btnLog = document.getElementById("log");
+btnLog.onclick = () => {
+	surroundOperatorClick("log10");
+};
+btnLog.onmouseover = () => {
+	functionMouseover("log");
+};
+
+const btnLn = document.getElementById("ln");
+btnLn.onclick = () => {
+	surroundOperatorClick("ln");
+};
+btnLn.onmouseover = () => {
+	functionMouseover("ln");
+};
 
 historyIcon.onclick = () => {
 	collapsableHistory();
 };
 
+helpMode.onclick = () => {
+	helpMode.checked ? helpDescription.style.display = 'block' : helpDescription.style.display = 'none'
+}
+
 //Keyboard Events....
 document.addEventListener("keydown", (event) => {
-	var key = event.key
+	var key = event.key;
 	for (let index = 0; index < 10; index++) {
-		key == index && addNumerToDisplay(key)
+		key == index && addNumerToDisplay(key);
 	}
-	key == "Enter" && equal()
-	key == "+" && operatorClick(key)
-	key == "*" && operatorClick(key)
-	key == "-" && operatorClick(key)
-	key == "/" && operatorClick(key)
-	key == "^" && operatorClick(key)
-	key == "." && addDecimal()
-	key == "," && addDecimal()
+	key == "Enter" && equal();
+	key == "+" && operatorClick(key);
+	key == "*" && operatorClick(key);
+	key == "-" && operatorClick(key);
+	key == "/" && operatorClick(key);
+	key == "^" && operatorClick(key);
+	key == "." && addDecimal();
+	key == "," && addDecimal();
 	if (key == "Backspace") {
-		mainDisplay.innerHTML= mainDisplay.innerHTML.slice(0, -1)
+		mainDisplay.innerHTML = mainDisplay.innerHTML.slice(0, -1);
 	}
-	event.preventDefault()
 });
-
 
 //Functions....
 
@@ -144,8 +224,8 @@ function operatorClick(operator) {
 	mainDisplay.innerHTML = "0";
 }
 
-function surroundOperatorClick (operator) {
-	mainDisplay.innerHTML = operator + "(" + mainDisplay.innerHTML + ")"
+function surroundOperatorClick(operator) {
+	mainDisplay.innerHTML = operator + "(" + mainDisplay.innerHTML + ")";
 }
 
 function clearAll() {
@@ -156,7 +236,7 @@ function clearAll() {
 }
 
 function addDecimal() {
-	let content = mainDisplay.innerHTML
+	let content = mainDisplay.innerHTML;
 	if (!content.includes(".")) {
 		mainDisplay.innerHTML = content + ".";
 	}
@@ -196,15 +276,24 @@ function collapsableHistory() {
 
 function operationToHTML(operation, parent) {
 	let element = document.createElement("p");
-	const { num1, operator, num2, result} = operation
-	element.innerHTML =
-		num1 +
-		" " +
-		operator +
-		" " +
-		num2 +
-		" = " +
-		result;
+	const { num1, operator, num2, result } = operation;
+	element.innerHTML = num1 + " " + operator + " " + num2 + " = " + result;
 	parent.appendChild(element);
-	
+}
+
+function getHelpDataDescription(name) {
+	if (helpData == null) {
+		return "No se pudo cargar los datos de ayuda";
+	}
+
+	return helpData[name]?.description ?? "Null";
+}
+
+function functionMouseover(name) {
+	if (!helpMode.checked) {
+		return;
+	}
+
+	const description = getHelpDataDescription(name);
+	helpDescription.innerHTML = description
 }

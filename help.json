@@ -1,0 +1,46 @@
+{
+    "help": {
+        "plus": {
+            "description": "es una suma"
+        },
+        "substract": {
+            "description": "es una resta"
+        },
+        "multiply": {
+            "description": "es una multiplicacion"
+        },
+        "divide": {
+            "description": "es una division"
+        },
+        "power": {
+            "description": "es una potencia"
+        },
+        "pi": {
+            "description": "3.1415"
+        },
+        "sqrt": {
+            "description": "raiz cuadrada"
+        },
+        "log": {
+            "description": "logaritmo base 10"
+        },
+        "ln": {
+            "description": "logaritmo base e"
+        },
+        "C": {
+            "description": "borra toda la operacion"
+        },
+        "CE": {
+            "description": "borra solo el numero actual"
+        },
+        "changeSign": {
+            "description": "cambia el signo del numero"
+        },
+        "comma": {
+            "description": "agrega una coma desde ese punto"
+        },
+        "equal": {
+            "description": "Resuelve la operacion"
+        }
+    }
+}

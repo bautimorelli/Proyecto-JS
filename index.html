@@ -10,6 +10,19 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
 	</head>
 	<body>
+		<div class="help">
+			<div class="tooltip">?
+				<p class="tooltiptext">Con el modo ayuda activado flota sobre las funciones para descubir una explicacion sobre el mismo</p>
+			</div>
+			
+			<p class="helpText">Modo Ayuda</p>
+			
+			<label class="switch">
+				<input type="checkbox" id="helpMode">
+				<span class="slider round"></span>
+			</label>
+			
+		</div>
 		<div class="flexVertically">
 			<div class="container">
 				<div class="calculator">
@@ -56,6 +69,7 @@
 					</div>
 				</div>
 			</div>
+			<h3 id="helpDescription"></h3>
 		</div>
 	</body>
 </html>
