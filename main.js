@@ -1,48 +1,50 @@
-//Classes....
+// Classes....
 class Operation {
+	
 	constructor(num1 = " ", num2 = " ", operator = " ", result) {
 		this.num1 = num1;
 		this.num2 = num2;
 		this.operator = operator;
 		this.result = result;
 	}
-	toHTML(parent) {
-		let element = document.createElement("p");
-		element.innerHTML =
-			this.num1 +
-			" " +
-			this.operator +
-			" " +
-			this.num2 +
-			" = " +
-			this.result;
-		parent.appendChild(element);
+
+	addToHistoryPanel() {
+		addToHistoryPanel(this)
 	}
+
+	calculateResult(equation) {
+		const result = parser.evaluate(equation);
+		operation.result = String(result);
+		operation.num2 = mainDisplay.innerHTML;
+	}
+
 }
 
-//Main....
-const historyStorage = localStorage.getItem("history");
-const history = JSON.parse(historyStorage) ?? [];
+// Variables....
 let operation = new Operation();
+const parser = math.parser();
+const history = JSON.parse(localStorage.getItem("history")) ?? [];
+let helpData = null;
+
+// Elements...
 const mainDisplay = document.getElementById("mainDisplay");
 const subDisplay = document.getElementById("subDisplay");
 const historyContainer = document.getElementById("historyContainer");
-const historyContent = document.getElementById("historyContent");
+const historyPanel = document.getElementById("historyContent");
 const historyIcon = document.getElementById("iconHistory");
-let helpData = null;
 const helpMode = document.getElementById("helpMode");
 const helpDescription = document.getElementById("helpDescription");
 
-const parser = math.parser();
+// Setup...
 parser.set("ln", function (number) {
 	return math.evaluate("log(" + number + ", e)");
 });
 
 history.forEach((operation) => {
-	operationToHTML(operation, historyContent);
+	addToHistoryPanel(operation);
 });
 
-//Async await
+// Async await...
 const fetchHelpData = async () => {
 	const resp = await fetch("./help.JSON");
 	const data = await resp.json();
@@ -54,167 +56,106 @@ fetchHelpData().then((data) => {
 	helpData = data.help;
 });
 
-//Events....
+// Events....
+setOperatorEvent("plus", "+")
+setOperatorEvent("substract", "-")
+setOperatorEvent("multiply", "*")
+setOperatorEvent("divide", "/")
+setOperatorEvent("power", "^")
+
 for (let index = 0; index < 10; index++) {
 	document.getElementById("num" + index).onclick = () => {
-		addNumerToDisplay(String(index));
+		addNumberToDisplay(String(index));
 	};
 }
 
-const btnChangeSign = document.getElementById("changeSign");
-btnChangeSign.onclick = () => {
+var operationButtons = document.getElementsByClassName("operation")
+for (let index = 0; index < operationButtons.length; index++) {
+	operationButtons[index].onmouseover = () => {
+		setMouseoverEvent(operationButtons[index].id)
+	}
+}
+
+document.getElementById("changeSign").onclick = () => {
 	let content = mainDisplay.innerHTML;
 	mainDisplay.innerHTML =
 		content[0] != "-" ? "-" + content : content.substring(1);
 };
-btnChangeSign.onmouseover = () => {
-	functionMouseover("changeSign");
+
+document.getElementById("comma").onclick = () => {
+	addDecimalPlace();
 };
 
-const btnComma = document.getElementById("comma");
-btnComma.onclick = () => {
-	addDecimal();
-};
-btnComma.onmouseover = () => {
-	functionMouseover("comma");
-};
-
-const btnClear = document.getElementById("clear");
-btnClear.onclick = () => {
+document.getElementById("CE").onclick = () => {
 	mainDisplay.innerHTML = "0";
 };
-btnClear.onmouseover = () => {
-	functionMouseover("CE");
-};
 
-const btnPlus = document.getElementById("plus");
-btnPlus.onclick = () => {
-	operatorClick("+");
-};
-btnPlus.onmouseover = () => {
-	functionMouseover("plus");
-};
-
-const btnSubstract = document.getElementById("substract");
-btnSubstract.onclick = () => {
-	operatorClick("-");
-};
-btnSubstract.onmouseover = () => {
-	functionMouseover("substract");
-};
-
-const btnMultiply = document.getElementById("multiply");
-btnMultiply.onclick = () => {
-	operatorClick("*");
-};
-btnMultiply.onmouseover = () => {
-	functionMouseover("multiply");
-};
-
-const btnDivide = document.getElementById("divide");
-btnDivide.onclick = () => {
-	operatorClick("/");
-};
-btnDivide.onmouseover = () => {
-	functionMouseover("divide");
-};
-
-const btnPower = document.getElementById("power");
-btnPower.onclick = () => {
-	operatorClick("^");
-};
-btnPower.onmouseover = () => {
-	functionMouseover("power");
-};
-
-const btnClearAll = document.getElementById("clearAll");
-btnClearAll.onclick = () => {
+document.getElementById("C").onclick = () => {
 	clearAll();
 };
-btnClearAll.onmouseover = () => {
-	functionMouseover("C");
+
+document.getElementById("equal").onclick = () => {
+	performEqualOperation();
 };
 
-const btnEqual = document.getElementById("equal");
-btnEqual.onclick = () => {
-	equal();
-};
-btnEqual.onmouseover = () => {
-	functionMouseover("equal");
+document.getElementById("pi").onclick = () => {
+	addNumberToDisplay("pi");
 };
 
-const btnPi = document.getElementById("pi");
-btnPi.onclick = () => {
-	addNumerToDisplay("pi");
-};
-btnPi.onmouseover = () => {
-	functionMouseover("pi");
-};
-
-const btnSqrt = document.getElementById("sqrt");
-btnSqrt.onclick = () => {
+document.getElementById("sqrt").onclick = () => {
 	surroundOperatorClick("sqrt");
 };
-btnSqrt.onmouseover = () => {
-	functionMouseover("sqrt");
-};
 
-const btnLog = document.getElementById("log");
-btnLog.onclick = () => {
+document.getElementById("log10").onclick = () => {
 	surroundOperatorClick("log10");
 };
-btnLog.onmouseover = () => {
-	functionMouseover("log");
-};
 
-const btnLn = document.getElementById("ln");
-btnLn.onclick = () => {
+document.getElementById("ln").onclick = () => {
 	surroundOperatorClick("ln");
-};
-btnLn.onmouseover = () => {
-	functionMouseover("ln");
 };
 
 historyIcon.onclick = () => {
-	collapsableHistory();
+	toggleHistoryPanel();
 };
 
 helpMode.onclick = () => {
 	helpMode.checked ? helpDescription.style.display = 'block' : helpDescription.style.display = 'none'
 }
 
-//Keyboard Events....
+// Keyboard Events....
 document.addEventListener("keydown", (event) => {
 	var key = event.key;
 	for (let index = 0; index < 10; index++) {
-		key == index && addNumerToDisplay(key);
+		key == index && addNumberToDisplay(key);
 	}
-	key == "Enter" && equal();
+	key == "Enter" && performEqualOperation();
 	key == "+" && operatorClick(key);
 	key == "*" && operatorClick(key);
 	key == "-" && operatorClick(key);
 	key == "/" && operatorClick(key);
 	key == "^" && operatorClick(key);
-	key == "." && addDecimal();
-	key == "," && addDecimal();
+	key == "." && addDecimalPlace();
+	key == "," && addDecimalPlace();
 	if (key == "Backspace") {
 		mainDisplay.innerHTML = mainDisplay.innerHTML.slice(0, -1);
 	}
 });
 
-//Functions....
-
-function addNumerToDisplay(number) {
+// Functions....
+function addNumberToDisplay(number) {
+	// Emptying for next operation
 	if (subDisplay.innerHTML.includes("=")) {
 		subDisplay.innerHTML = "";
 		mainDisplay.innerHTML = "";
 	}
+
+	// Replacing empty value
 	if (mainDisplay.innerHTML == "0") {
 		mainDisplay.innerHTML = "";
 	}
-	let content = mainDisplay.innerHTML;
-	content = content + number;
-	mainDisplay.innerHTML = content;
+
+	// Appending number
+	mainDisplay.innerHTML += number
 }
 
 function operatorClick(operator) {
@@ -229,56 +170,61 @@ function surroundOperatorClick(operator) {
 }
 
 function clearAll() {
+	operation = new Operation();
 	subDisplay.innerHTML = "";
-	operation.num1 = " ";
-	operation.operator = " ";
 	mainDisplay.innerHTML = "0";
 }
 
-function addDecimal() {
+function addDecimalPlace() {
 	let content = mainDisplay.innerHTML;
 	if (!content.includes(".")) {
 		mainDisplay.innerHTML = content + ".";
 	}
 }
 
-function equal() {
+function performEqualOperation() {
 	if (subDisplay.innerHTML.includes("=")) {
 		subDisplay.innerHTML = "";
 	}
-	let equation = subDisplay.innerHTML + mainDisplay.innerHTML;
-	operation.num2 = mainDisplay.innerHTML;
-	subDisplay.innerHTML = equation + " =";
-	const result = parser.evaluate(equation);
-	operation.result = result;
-	mainDisplay.innerHTML = result;
 
+	// Calculating result
+	let equation = subDisplay.innerHTML + mainDisplay.innerHTML;
+	operation.calculateResult(equation)
+
+	// Update screen
+	mainDisplay.innerHTML = operation.result;
+	subDisplay.innerHTML = equation + " =";
+
+	// Add History
 	history.push(operation);
 	if (history.length >= 15) {
 		history.shift();
-		historyContent.removeChild(historyContent.firstChild);
+		historyPanel.removeChild(historyPanel.firstChild);
 	}
-	const historyJSON = JSON.stringify(history);
-	localStorage.setItem("history", historyJSON);
-	operation.toHTML(historyContent);
+	localStorage.setItem("history", JSON.stringify(history));
+	operation.addToHistoryPanel(historyPanel);
 	operation = new Operation();
 }
 
-function collapsableHistory() {
-	if (historyContainer.style.maxWidth) {
+function toggleHistoryPanel() {
+	let isShown = historyContainer.style.maxWidth
+	if (isShown) {
+		// Collapse
 		historyContainer.style.maxWidth = null;
 		historyContainer.style.maxHeight = null;
 	} else {
+		// Show
 		historyContainer.style.maxWidth = "90vw";
 		historyContainer.style.maxHeight = "90vh";
 	}
 }
 
-function operationToHTML(operation, parent) {
+function addToHistoryPanel(operation) {
 	let element = document.createElement("p");
 	const { num1, operator, num2, result } = operation;
+	//element.innerHTML = `${num1} ${operator} ${num2} = ${result}`
 	element.innerHTML = num1 + " " + operator + " " + num2 + " = " + result;
-	parent.appendChild(element);
+	historyPanel.appendChild(element);
 }
 
 function getHelpDataDescription(name) {
@@ -289,11 +235,17 @@ function getHelpDataDescription(name) {
 	return helpData[name]?.description ?? "Null";
 }
 
-function functionMouseover(name) {
+function setMouseoverEvent(name) {
 	if (!helpMode.checked) {
 		return;
 	}
 
 	const description = getHelpDataDescription(name);
 	helpDescription.innerHTML = description
+}
+
+function setOperatorEvent(id, operator) {
+	document.getElementById(id).onclick = () => {
+		operatorClick(operator);
+	};
 }

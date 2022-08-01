@@ -64,7 +64,6 @@ body {
     color: rgba(0, 0, 0, 0.5);
     height: 20px;
     overflow: hidden;
-    direction: rtl;
 }
 
 #mainDisplay {
@@ -72,7 +71,6 @@ body {
     margin: 5px 15px 15px;
     color: #0087F3;
     overflow: hidden;
-    direction: rtl;
 }
 
 .button {
