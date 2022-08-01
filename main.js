@@ -222,7 +222,6 @@ function toggleHistoryPanel() {
 function addToHistoryPanel(operation) {
 	let element = document.createElement("p");
 	const { num1, operator, num2, result } = operation;
-	//element.innerHTML = `${num1} ${operator} ${num2} = ${result}`
 	element.innerHTML = num1 + " " + operator + " " + num2 + " = " + result;
 	historyPanel.appendChild(element);
 }
